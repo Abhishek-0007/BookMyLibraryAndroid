@@ -115,29 +115,9 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
                 }
                 Status.SUCCESS -> {
                     if(it.code == 200){
-                        val builder: AlertDialog.Builder? = this?.let {
-                            AlertDialog.Builder(it)
-                        }
-
-                        builder!!.setMessage("Do you want to proceed??")
-                            .setTitle("Seat Booking")
-
-                        builder.apply {
-                            setPositiveButton("Ok") { dialog, id ->
-                                val selectedId = id
-                            }
-                            setNegativeButton("Cancel") { dialog, id ->
-                                val selectedId = id
-                            }
-                        }
-                        val dialog: AlertDialog? = builder.create()
-
-                        dialog!!.show()
+                        checkAPI(code)
                     }
-//                        binding.rv.adapter = SeatAdapter(it.data!!.body, this)
-
                     Log.d("response: ", it.message.toString())
-
                 }
                 Status.ERROR ->{
                     Log.d("error: ", it.message.toString())
@@ -148,6 +128,24 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
     }
 
     override fun onSeatClick(seatNumber: Int, row: Int) {
-        bookSeat(row, code, seatNumber)
+        val builder: AlertDialog.Builder? = this?.let {
+            AlertDialog.Builder(it)
+        }
+
+        builder!!.setMessage("Do you want to proceed??")
+            .setTitle("Seat Booking")
+
+        builder.apply {
+            setPositiveButton("Ok") { dialog, id ->
+                val selectedId = id
+                bookSeat(row, code, seatNumber)
+            }
+            setNegativeButton("Cancel") { dialog, id ->
+                val selectedId = id
+            }
+        }
+        val dialog: AlertDialog? = builder.create()
+
+        dialog!!.show()
     }
 }

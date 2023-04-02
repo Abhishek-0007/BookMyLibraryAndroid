@@ -61,6 +61,7 @@ class PhysicalLibraryActivity : AppCompatActivity(),LibraryOnClick {
                 ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     101)
+                checkAP()
             }
             else{
                 checkAP()

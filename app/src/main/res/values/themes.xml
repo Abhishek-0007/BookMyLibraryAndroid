@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.ExpenseManager" parent="Base.Theme.ExpenseManager" />
+
+    <style name="customRoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+        <item name="cornerSizeBottomRight">16dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+    </style>
 </resources>

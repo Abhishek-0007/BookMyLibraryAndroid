@@ -84,9 +84,7 @@ public class ExtensionMethods {
                 Log.d("lat", it.latitude.toString())
                 Log.d("lon", it.longitude.toString())
             } catch (e: Exception) {
-                Toast.makeText(context,
-                    "Location service not enabled, Error: ${e.message}",
-                    Toast.LENGTH_SHORT).show()
+                Log.d("location fetch error: ", e.message.toString())
             }
         }
         return locationCoordinates
