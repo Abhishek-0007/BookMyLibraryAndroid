@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="90dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/firstSeat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:strokeWidth="0dp"
+            android:layout_margin="12dp"
+            android:backgroundTint="@color/availableSeat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/secondSeat"
+            app:strokeWidth="0dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="12dp"
+            android:backgroundTint="@color/availableSeat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/thirdSeat"
+            app:strokeWidth="0dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="12dp"
+            android:backgroundTint="@color/availableSeat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fourthSeat"
+            app:strokeWidth="0dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="12dp"
+            android:backgroundTint="@color/availableSeat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fifthSeat"
+            app:strokeWidth="0dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="12dp"
+            android:backgroundTint="@color/availableSeat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+    </LinearLayout>
+</layout>

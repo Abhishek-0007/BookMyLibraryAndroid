@@ -14,6 +14,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card"
             android:layout_width="100dp"
             android:elevation="4dp"
             android:layout_margin="4dp"

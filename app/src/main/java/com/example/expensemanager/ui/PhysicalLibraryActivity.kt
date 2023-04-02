@@ -3,19 +3,26 @@ package com.example.expensemanager.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensemanager.Adapter.LibraryAdapter
+import com.example.expensemanager.Interfaces.LibraryOnClick
+import com.example.expensemanager.MainActivity
 import com.example.expensemanager.models.LibraryBody
 import com.example.expensemanager.models.ResponseModel
 import com.example.expensemanager.Network.ApiInterface
@@ -25,8 +32,12 @@ import com.example.expensemanager.Utility.Status
 import com.example.expensemanager.databinding.ActivityPhysicalLibraryBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class PhysicalLibraryActivity : AppCompatActivity() {
+class PhysicalLibraryActivity : AppCompatActivity(),LibraryOnClick {
     private lateinit var binding : ActivityPhysicalLibraryBinding
     private var locationByGps:Location = Location("")
     var locationByNetwork:Location = Location("")
@@ -37,6 +48,12 @@ class PhysicalLibraryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPhysicalLibraryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+
+        binding.rv.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
         try {
             if (ContextCompat.checkSelfPermission(applicationContext,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -45,105 +62,22 @@ class PhysicalLibraryActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     101)
             }
+            else{
+                checkAP()
+            }
         } catch (e: Exception) {
+
             e.printStackTrace()
         }
-        binding.rv.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.back.setOnClickListener { finish() }
 
-        try
-        {
-            checkAP()
-        }
-        catch (e : Exception) {
-            Toast.makeText(this, "Check if server is down. Message : ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-    fun getLocation(){
-        try {
-            if (ContextCompat.checkSelfPermission(applicationContext,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    101)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        var currentLocation: Location? = null
-        lateinit var locationManager: LocationManager
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        val hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-//------------------------------------------------------//
-        val hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-        val gpsLocationListener: LocationListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                locationByGps= location
-            }
-
-            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-            override fun onProviderEnabled(provider: String) {}
-            override fun onProviderDisabled(provider: String) {}
-        }
-//------------------------------------------------------//
-        val networkLocationListener: LocationListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                locationByNetwork= location
-            }
-
-            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-            override fun onProviderEnabled(provider: String) {}
-            override fun onProviderDisabled(provider: String) {}
-        }
-
-        if (hasGps) {
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                5000,
-                0F,
-                gpsLocationListener
-            )
-        }
-//------------------------------------------------------//
-        if (hasNetwork) {
-            locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
-                5000,
-                0F,
-                networkLocationListener
-            )
-        }
-
-        val lastKnownLocationByGps =
-            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        lastKnownLocationByGps?.let {
-            locationByGps = lastKnownLocationByGps
-        }
-//------------------------------------------------------//
-        val lastKnownLocationByNetwork =
-            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        lastKnownLocationByNetwork?.let {
-            locationByNetwork = lastKnownLocationByNetwork
-        }
-//------------------------------------------------------//
-        if (locationByGps != null && locationByNetwork != null) {
-            if (locationByGps.accuracy > locationByNetwork!!.accuracy) {
-                currentLocation = locationByGps
-                latitude = currentLocation.latitude
-                longitude = currentLocation.longitude
-                // use latitude and longitude as per your need
-            } else {
-                currentLocation = locationByNetwork
-                latitude = currentLocation.latitude
-                longitude = currentLocation.longitude
-                // use latitude and longitude as per your need
-            }
-        }
-
+//        try
+//        {
+//
+//        }
+//        catch (e : Exception) {
+//            Toast.makeText(this, "Check if server is down. Message : ${e.message}", Toast.LENGTH_SHORT).show()
+//        }
     }
 
     fun checkAP()
@@ -151,16 +85,20 @@ class PhysicalLibraryActivity : AppCompatActivity() {
         checkApiRepo().observe(this){
             when(it.status){
                 Status.LOADING -> {
+                    binding.loadingLayout.visibility = View.VISIBLE
                 }
                 Status.SUCCESS -> {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        binding.loadingLayout.visibility = View.GONE
+                    }, 2000)
                     if(it.code == 200)
-                        binding.rv.adapter = LibraryAdapter(it.data!!.body, this, this@PhysicalLibraryActivity)
+                        binding.rv.adapter = LibraryAdapter(it.data!!.body, this, this@PhysicalLibraryActivity, this)
                     Log.d("response: ", it.message.toString())
 
                 }
                 Status.ERROR ->{
                     Log.d("error: ", it.message.toString())
-
+                    binding.loadingLayout.visibility = View.GONE
                 }
             }
         }
@@ -185,6 +123,13 @@ class PhysicalLibraryActivity : AppCompatActivity() {
             )
 
         return mutableLiveData
+    }
+
+    override fun onCardListener(position: Int, item: Any) {
+        val intent = Intent(this, SeatBookingActivity::class.java)
+        var model = item as LibraryBody
+        intent.putExtra("code", model.libraryCode)
+        startActivity(intent)
     }
 
 }

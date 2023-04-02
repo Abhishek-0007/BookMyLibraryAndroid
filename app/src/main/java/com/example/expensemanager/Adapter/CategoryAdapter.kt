@@ -3,11 +3,12 @@ package com.example.expensemanager.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.expensemanager.Interfaces.CategoryOnClick
 import com.example.expensemanager.databinding.CategoryListItemBinding
 import com.example.expensemanager.databinding.LibraryItemLayoutBinding
 import com.example.expensemanager.models.CategoryBody
 
-class CategoryAdapter(var items: List<CategoryBody>) : RecyclerView.Adapter<CategoryAdapter.DataViewHolder>() {
+class CategoryAdapter(var items: List<CategoryBody>, var listener: CategoryOnClick) : RecyclerView.Adapter<CategoryAdapter.DataViewHolder>() {
 
     inner class DataViewHolder(val binding : CategoryListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,6 +22,7 @@ class CategoryAdapter(var items: List<CategoryBody>) : RecyclerView.Adapter<Cate
         else
             holder.binding.title.setText(item.category.toString().substring(0,20))
 
+        holder.binding.card.setOnClickListener { listener.categoryClickListener(position, item) }
     }
 
     override fun getItemCount(): Int = items.size

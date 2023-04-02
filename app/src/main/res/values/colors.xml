@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="selectedSeat">#C51162</color>
+    <color name="bookedSeat">#304FFE</color>
+    <color name="availableSeat">#E8EAF6</color>
 </resources>
