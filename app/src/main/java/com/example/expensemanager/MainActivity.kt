@@ -1,6 +1,7 @@
 package com.example.expensemanager
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
 import com.example.expensemanager.databinding.ActivityMainBinding
+import com.example.expensemanager.extensions.ExtensionMethods
 import com.example.expensemanager.ui.PhysicalLibraryActivity
 import com.example.expensemanager.ui.VirtualLibraryActivity
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setContentView(binding.root)
+
 
         binding.virtualBtn.setOnClickListener {
             if(selectedBtn.isNotEmpty() && selectedBtn.equals("physical"))

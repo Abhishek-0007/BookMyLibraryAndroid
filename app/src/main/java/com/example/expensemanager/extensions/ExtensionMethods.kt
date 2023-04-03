@@ -2,14 +2,27 @@ package com.example.expensemanager.extensions
 
 import android.Manifest
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import com.example.expensemanager.R
 import com.example.expensemanager.models.LibraryBody
 import com.example.expensemanager.models.LocationCoordinates
@@ -30,10 +43,90 @@ public class ExtensionMethods {
         result[4] = model.fifthSeat
         return result
     }
-    fun showDialogOne(context: Context) {
+    fun showBottomSheetAfterSeatBooking(context: Context, seatNumber: String, code:String) {
         val dialog = BottomSheetDialog(context)
         dialog.setContentView(R.layout.bottom_sheet_layout)
+        val seatTextView= dialog.findViewById<TextView>(R.id.seatIdDesc)
+        val libCode= dialog.findViewById<TextView>(R.id.libCode)
+        val share= dialog.findViewById<LinearLayout>(R.id.share)
+        val copy= dialog.findViewById<LinearLayout>(R.id.copy)
+        val copyInLine= dialog.findViewById<ImageView>(R.id.copyInLine)
+        val loadingLayout= dialog.findViewById<RelativeLayout>(R.id.loadingLayout)
+        seatTextView?.setText(seatNumber)
+        libCode?.setText(code)
+
+        share?.setOnClickListener {
+            val myIntent = Intent(Intent.ACTION_SEND);
+            myIntent.setType("text/plain");
+            val body = "123456";
+            val sub = "Here is your OTP for library";
+            myIntent.putExtra(Intent.EXTRA_SUBJECT,sub);
+            myIntent.putExtra(Intent.EXTRA_TEXT,body);
+            startActivity(context, Intent.createChooser(myIntent, "Share Using"), null)
+            dialog.show()
+        }
+
+        copy?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
+        copyInLine?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
         dialog.show()
+        loadingLayout?.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingLayout?.visibility = View.GONE
+        }, 2000)
+    }
+
+    fun showBottomSheetAfterCategory(context: Context, category: String) {
+        val dialog = BottomSheetDialog(context)
+        dialog.setContentView(R.layout.bottom_sheet_category)
+        val seatTextView= dialog.findViewById<TextView>(R.id.seatIdDesc)
+        val share= dialog.findViewById<LinearLayout>(R.id.share)
+        val copy= dialog.findViewById<LinearLayout>(R.id.copy)
+        val copyInLine= dialog.findViewById<ImageView>(R.id.copyInLine)
+        val loadingLayout= dialog.findViewById<RelativeLayout>(R.id.loadingLayout)
+        seatTextView?.setText(category)
+
+        share?.setOnClickListener {
+            val myIntent = Intent(Intent.ACTION_SEND);
+            myIntent.setType("text/plain");
+            val body = "123456";
+            val sub = "Here is your OTP for library";
+            myIntent.putExtra(Intent.EXTRA_SUBJECT,sub);
+            myIntent.putExtra(Intent.EXTRA_TEXT,body);
+            startActivity(context, Intent.createChooser(myIntent, "Share Using"), null)
+            dialog.show()
+        }
+
+        copy?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
+        copyInLine?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
+        dialog.show()
+        loadingLayout?.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingLayout?.visibility = View.GONE
+        }, 2000)
     }
     fun toGetDistance(item: LibraryBody, locationCoordinates: LocationCoordinates): String {
         try{
