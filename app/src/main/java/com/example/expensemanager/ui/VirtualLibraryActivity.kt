@@ -25,6 +25,7 @@ import com.example.expensemanager.R
 import com.example.expensemanager.Utility.Resource
 import com.example.expensemanager.Utility.Status
 import com.example.expensemanager.databinding.ActivityVirtualLibraryBinding
+import com.example.expensemanager.extensions.ExtensionMethods
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -93,16 +94,18 @@ class VirtualLibraryActivity : AppCompatActivity(), CategoryOnClick {
     }
 
     override fun categoryClickListener(position: Int, model: Any) {
+        var item = model as CategoryBody
         val builder: AlertDialog.Builder? = this?.let {
             AlertDialog.Builder(it)
         }
 
-        builder!!.setMessage("Do you want to proceed??")
+        builder!!.setMessage("Do you want to book your seat??")
             .setTitle("Virtual Book Library")
 
         builder.apply {
             setPositiveButton("Ok") { dialog, id ->
                 val selectedId = id
+                ExtensionMethods().showBottomSheetAfterCategory(this@VirtualLibraryActivity, item.category.toString())
             }
             setNegativeButton("Cancel") { dialog, id ->
                 val selectedId = id
