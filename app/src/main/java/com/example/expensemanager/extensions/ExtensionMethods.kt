@@ -30,9 +30,11 @@ public class ExtensionMethods {
         result[4] = model.fifthSeat
         return result
     }
-
-
-
+    fun showDialogOne(context: Context) {
+        val dialog = BottomSheetDialog(context)
+        dialog.setContentView(R.layout.bottom_sheet_layout)
+        dialog.show()
+    }
     fun toGetDistance(item: LibraryBody, locationCoordinates: LocationCoordinates): String {
         try{
             var e: Location = Location(LocationManager.GPS_PROVIDER)
