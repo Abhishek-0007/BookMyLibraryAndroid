@@ -10,12 +10,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.expensemanager.R
 import com.example.expensemanager.models.LibraryBody
 import com.example.expensemanager.models.LocationCoordinates
 import com.example.expensemanager.models.SeatViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 public class ExtensionMethods {
 
@@ -28,6 +30,8 @@ public class ExtensionMethods {
         result[4] = model.fifthSeat
         return result
     }
+
+
 
     fun toGetDistance(item: LibraryBody, locationCoordinates: LocationCoordinates): String {
         try{
