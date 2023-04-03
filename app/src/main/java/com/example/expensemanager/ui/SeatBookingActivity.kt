@@ -17,6 +17,7 @@ import com.example.expensemanager.Network.RetrofitHelper
 import com.example.expensemanager.Utility.Resource
 import com.example.expensemanager.Utility.Status
 import com.example.expensemanager.databinding.ActivitySeatBookingBinding
+import com.example.expensemanager.extensions.ExtensionMethods
 import com.example.expensemanager.models.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -128,24 +129,25 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
     }
 
     override fun onSeatClick(seatNumber: Int, row: Int) {
-        val builder: AlertDialog.Builder? = this?.let {
+        val builder: AlertDialog.Builder = this.let {
             AlertDialog.Builder(it)
         }
 
-        builder!!.setMessage("Do you want to proceed??")
-            .setTitle("Seat Booking")
+        builder.setMessage("Do you want to proceed??")
+            .setTitle("Please confirm your seat booking")
 
         builder.apply {
-            setPositiveButton("Ok") { dialog, id ->
+            setPositiveButton("Confirm") { dialog, id ->
                 val selectedId = id
                 bookSeat(row, code, seatNumber)
+                ExtensionMethods().showBottomSheetAfterSeatBooking(this@SeatBookingActivity, "${row}-${seatNumber}", code)
             }
             setNegativeButton("Cancel") { dialog, id ->
                 val selectedId = id
             }
         }
-        val dialog: AlertDialog? = builder.create()
+        val dialog: AlertDialog = builder.create()
 
-        dialog!!.show()
+        dialog.show()
     }
 }

@@ -16,27 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <RelativeLayout
-        android:id="@+id/loadingLayout"
-        android:elevation="1dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/dragger"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/white"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-
-        <pl.droidsonroids.gif.GifImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="1dp"
-            android:backgroundTint="@color/white"
-            android:layout_centerInParent="true"
-            android:src="@drawable/book"/>
-
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/seatIdTitle"
         android:layout_width="wrap_content"
@@ -76,13 +55,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Library Code :"
+                android:text="Amount :"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_marginStart="16dp"/>
 
             <TextView
-                android:id="@+id/libCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NIL"
@@ -125,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Payment-Type :"
+                android:text="Payment-Type"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_marginStart="16dp"/>
@@ -149,7 +127,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="One Time Password :"
+                android:text="One Time Password"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_marginStart="16dp"/>
@@ -165,7 +143,6 @@
 
 
             <ImageView
-                android:id="@+id/copyInLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -187,7 +164,6 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
-        android:id="@+id/share"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -210,7 +186,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/copy"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:orientation="horizontal"
