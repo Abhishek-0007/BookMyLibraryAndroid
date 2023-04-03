@@ -37,7 +37,7 @@ class SplashScreenActivity : AppCompatActivity() {
             "There’s nothing wrong with reading a book you love over and over."
             )
 
-        binding.tv.setText(quotes[(0..quotes.size).random()])
+        binding.tv.setText(quotes[(0..quotes.size-1).random()])
 
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, MainActivity::class.java)
