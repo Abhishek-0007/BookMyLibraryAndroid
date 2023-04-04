@@ -1,42 +1,70 @@
 package com.example.expensemanager
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
+
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
+import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
-import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
+import androidx.navigation.ui.AppBarConfiguration
 import com.example.expensemanager.databinding.ActivityMainBinding
-import com.example.expensemanager.extensions.ExtensionMethods
+import com.example.expensemanager.ui.OrderActivity
 import com.example.expensemanager.ui.PhysicalLibraryActivity
 import com.example.expensemanager.ui.VirtualLibraryActivity
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Task
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     var selectedBtn = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        binding.bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.activity_virtual_library -> {
+                    startActivity(Intent(this, VirtualLibraryActivity::class.java))
+                    true
+                }
+                R.id.physicalFragment -> {
+                    startActivity(Intent(this, PhysicalLibraryActivity::class.java))
+                    true
+                }
+                R.id.orderFragment -> {
+                    startActivity(Intent(this, OrderActivity::class.java))
+                    true
+                }
+                else -> {
+                    true
+                }
+            }
+        }
+
+        actionBarDrawerToggle =
+            ActionBarDrawerToggle(this, binding.myDrawerLayout, R.string.nav_open, R.string.nav_close)
+
+        binding.myDrawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.menu.setOnClickListener{
+            if(!binding.myDrawerLayout.isDrawerOpen(GravityCompat.START)) binding.myDrawerLayout.openDrawer(
+                GravityCompat.START);
+            else binding.myDrawerLayout.closeDrawer(GravityCompat.END);
+        }
 
         binding.virtualBtn.setOnClickListener {
             if(selectedBtn.isNotEmpty() && selectedBtn.equals("physical"))
@@ -67,5 +95,10 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "No options selected", Toast.LENGTH_SHORT).show()}
             }
         }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            true
+        } else super.onOptionsItemSelected(item)
     }
 }
