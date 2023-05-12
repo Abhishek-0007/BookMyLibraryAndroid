@@ -8,7 +8,7 @@ import com.example.expensemanager.databinding.CategoryListItemBinding
 import com.example.expensemanager.databinding.LibraryItemLayoutBinding
 import com.example.expensemanager.models.CategoryBody
 
-class CategoryAdapter(var items: List<CategoryBody>, var listener: CategoryOnClick) : RecyclerView.Adapter<CategoryAdapter.DataViewHolder>() {
+class CategoryAdapter(var items: List<String>, var listener: CategoryOnClick) : RecyclerView.Adapter<CategoryAdapter.DataViewHolder>() {
 
     inner class DataViewHolder(val binding : CategoryListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -17,10 +17,10 @@ class CategoryAdapter(var items: List<CategoryBody>, var listener: CategoryOnCli
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         var item = items[position]
-        if (item.category.toString().length <= 20)
-            holder.binding.title.setText(item.category)
+        if (item.toString().length <= 20)
+            holder.binding.title.setText(item)
         else
-            holder.binding.title.setText(item.category.toString().substring(0,20))
+            holder.binding.title.setText(item.toString().substring(0,20))
 
         holder.binding.card.setOnClickListener { listener.categoryClickListener(position, item) }
     }

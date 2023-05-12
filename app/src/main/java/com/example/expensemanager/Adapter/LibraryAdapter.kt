@@ -12,8 +12,6 @@ import com.example.expensemanager.Interfaces.LibraryOnClick
 import com.example.expensemanager.databinding.LibraryItemLayoutBinding
 import com.example.expensemanager.extensions.ExtensionMethods
 import com.example.expensemanager.models.LibraryBody
-import com.example.expensemanager.ui.SeatBookingActivity
-import java.util.*
 
 
 class LibraryAdapter(var items : List<LibraryBody>, var context: Context,var  activity: Activity, var listener : LibraryOnClick): RecyclerView.Adapter<LibraryAdapter.DataViewHolder>() {
@@ -27,8 +25,8 @@ class LibraryAdapter(var items : List<LibraryBody>, var context: Context,var  ac
 
         var item = items[position]
         holder.binding.model = item
-        var locate = ExtensionMethods().toGetCurrentLocation(context = context, activity = activity)
-        holder.binding.distanceLib.setText(ExtensionMethods().toGetDistance(item, locate))
+        var locate = ExtensionMethods().tryGetCurrentLocation(context = context, activity = activity)
+        holder.binding.distanceLib.setText(ExtensionMethods().tryGetDistance(item, locate))
 
             holder.binding.send.setOnClickListener {
                 val url = Uri.parse("google.navigation:q=" + item.latitude + "," + item.logitude )

@@ -40,9 +40,9 @@ class SplashScreenActivity : AppCompatActivity() {
         binding.tv.setText(quotes[(0..quotes.size-1).random()])
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this@SplashScreenActivity, HostActivity::class.java)
             startActivity(intent)
             finish()
-        }, 4000)
+        }, 1)
     }
 }
