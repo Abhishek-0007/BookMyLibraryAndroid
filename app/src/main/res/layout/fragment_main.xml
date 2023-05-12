@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+     <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent" >
+
+         <androidx.constraintlayout.widget.ConstraintLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+             <RelativeLayout
+                 android:id="@+id/toolbar"
+                 android:layout_width="match_parent"
+                 android:layout_height="70dp"
+                 app:layout_constraintTop_toTopOf="parent"
+                 android:background="#152238">
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Find your books!"
+                     android:textStyle="bold"
+                     style="@style/MaterialAlertDialog.Material3.Title.Text"
+                     android:textColor="#fff"
+                     android:textSize="16sp"
+                     android:layout_margin="16dp"
+                     android:gravity="top|start"/>
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentStart="true"
+                     android:layout_alignParentBottom="true"
+                     android:layout_marginStart="16dp"
+                     android:layout_marginTop="16dp"
+                     android:layout_marginEnd="16dp"
+                     android:layout_marginBottom="8dp"
+                     android:text="Greater Noida >"
+                     android:textColor="@color/white" />
+
+
+                 <ImageView
+                     android:id="@+id/search"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerVertical="true"
+                     android:layout_alignParentEnd="true"
+                     android:layout_marginEnd="16dp"
+                     android:src="@drawable/baseline_search_24_white" />
+
+             </RelativeLayout>
+             <RelativeLayout
+                 android:id="@+id/layout"
+                 android:layout_width="match_parent"
+                 android:layout_height="180dp"
+                 android:layout_marginHorizontal="8dp"
+                 android:layout_marginVertical="16dp"
+                 app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+                 <androidx.viewpager2.widget.ViewPager2
+                     android:id="@+id/slider"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     app:riv_corner_radius="12dp"
+                     android:adjustViewBounds="true">
+                 </androidx.viewpager2.widget.ViewPager2>
+
+             </RelativeLayout>
+
+             <LinearLayout
+                 android:id="@+id/topLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 app:layout_constraintTop_toBottomOf="@id/layout"
+                 android:orientation="vertical">
+
+                 <RelativeLayout
+                     android:layout_height="50dp"
+                     android:layout_width="match_parent">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="15dp"
+                         android:layout_centerVertical="true"
+                         android:fontFamily="sans-serif-black"
+                         android:text="Which library would you like to select"
+                         android:textColor="@color/black"
+                         android:textSize="16dp"
+                         android:textStyle="bold" />
+
+                 </RelativeLayout>
+
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:orientation="horizontal"
+                     android:id="@+id/card1"
+                     android:layout_margin="10dp"
+                     android:weightSum="2"
+                     android:gravity="center"
+                     android:layout_height="wrap_content">
+
+                     <androidx.cardview.widget.CardView
+                         android:layout_width="0dp"
+                         android:layout_weight="1"
+                         android:id="@+id/virtualCard"
+                         android:layout_height="120dp"
+                         app:cardCornerRadius="8dp"
+                         app:cardBackgroundColor="#00BCD4"
+                         app:cardPreventCornerOverlap="true"
+                         app:cardUseCompatPadding="true"
+                         >
+                         <LinearLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:orientation="horizontal">
+                             <LinearLayout
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginLeft="10dp"
+                                 android:orientation="vertical">
+
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_marginTop="15dp"
+                                     android:text="Virtual"
+                                     android:fontFamily="sans-serif-black"
+                                     android:textColor="@color/black"
+                                     android:textSize="17dp"
+                                     android:textStyle="bold" />
+
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_gravity="bottom|center_horizontal"
+                                     android:layout_marginTop="22dp"
+                                     android:text="These are the libraries which are easily\naccessible. You can read or watch \na huge library of books here."
+                                     android:textColor="@color/white"
+                                     android:textSize="5sp"
+                                     android:textStyle="bold" />
+                             </LinearLayout>
+                             <RelativeLayout
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content">
+
+                                 <ImageView
+                                     android:id="@+id/img1"
+                                     android:layout_width="60dp"
+                                     android:layout_height="74dp"
+                                     android:layout_alignParentRight="true"
+                                     android:layout_marginStart="10dp"
+                                     android:layout_marginTop="10dp"
+                                     android:layout_marginEnd="10dp"
+                                     android:layout_marginBottom="10dp"
+                                     android:src="@drawable/ic_virtual" />
+
+                             </RelativeLayout>
+                         </LinearLayout>
+                     </androidx.cardview.widget.CardView>
+
+                     <androidx.cardview.widget.CardView
+                         android:layout_width="0dp"
+                         android:layout_weight="1"
+                         android:id="@+id/physicalCard"
+                         android:layout_height="120dp"
+                         app:cardCornerRadius="8dp"
+                         app:cardBackgroundColor="#2196F3"
+                         app:cardPreventCornerOverlap="true"
+                         app:cardUseCompatPadding="true"
+                         >
+                         <LinearLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:orientation="horizontal">
+                             <LinearLayout
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginLeft="10dp"
+                                 android:orientation="vertical">
+
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_marginTop="15dp"
+                                     android:text="Physical"
+                                     android:textColor="@color/black"
+                                     android:textSize="17dp"
+                                     android:textStyle="bold" />
+
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_gravity="bottom|center_horizontal"
+                                     android:layout_marginTop="22dp"
+                                     android:text="These are the libraries which can be\naccessed physically. One can visit the library \nin person."
+                                     android:textColor="@color/white"
+                                     android:textSize="5sp"
+                                     android:textStyle="bold" />
+                             </LinearLayout>
+                             <RelativeLayout
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content">
+
+                                 <ImageView
+                                     android:id="@+id/img"
+                                     android:layout_width="60dp"
+                                     android:layout_height="74dp"
+                                     android:layout_alignParentRight="true"
+                                     android:layout_marginStart="10dp"
+                                     android:layout_marginTop="10dp"
+                                     android:layout_marginEnd="10dp"
+                                     android:layout_marginBottom="10dp"
+                                     android:src="@drawable/ic_round_local_library_24" />
+
+                             </RelativeLayout>
+                         </LinearLayout>
+                     </androidx.cardview.widget.CardView>
+
+
+                 </LinearLayout>
+
+             </LinearLayout>
+
+             <TextView
+                 android:id="@+id/tv1"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 app:layout_constraintTop_toBottomOf="@id/topLayout"
+                 android:text="Top Selling Books!"
+                 android:textColor="@color/black"
+                 android:fontFamily="sans-serif-black"
+                 android:layout_margin="16dp"/>
+
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/booksRv"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:maxHeight="200dp"
+                 app:layout_constraintTop_toBottomOf="@id/tv1"/>
+
+             <TextView
+                 android:id="@+id/tv2"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 app:layout_constraintTop_toBottomOf="@id/booksRv"
+                 android:text="Top Selling Genres!"
+                 android:layout_marginTop="16dp"
+                 android:fontFamily="sans-serif-black"
+                 android:textColor="@color/black"
+                 android:layout_margin="16dp"/>
+
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/genresRv"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 app:layout_constraintTop_toBottomOf="@id/tv2"/>
+
+             <TextView
+                 android:id="@+id/tv5"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 app:layout_constraintTop_toBottomOf="@id/genresRv"
+                 android:text="Top Selling Books!"
+                 android:textColor="@color/black"
+                 android:fontFamily="sans-serif-black"
+                 android:layout_margin="16dp"/>
+
+             <RelativeLayout
+                 android:id="@+id/l1"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@color/white"
+                 app:layout_constraintTop_toBottomOf="@id/tv5">
+                 <HorizontalScrollView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:orientation="vertical">
+
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="15dp"
+                         android:layout_marginTop="15dp"
+                         android:orientation="horizontal">
+
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/workshop"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/kidzone"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/music"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/upskill"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/interactive"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/threater"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                     </LinearLayout>
+
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="15dp"
+                         android:layout_marginTop="15dp"
+                         android:orientation="horizontal">
+
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/stayfit"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/comedy"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/esport"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/food"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/artandcraft"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+
+                         <com.google.android.material.imageview.ShapeableImageView
+                             android:layout_width="130dp"
+                             android:layout_height="130dp"
+                             android:layout_marginStart="15dp"
+                             android:adjustViewBounds="true"
+                             android:scaleType="fitXY"
+                             android:src="@drawable/adventure"
+                             app:shapeAppearanceOverlay="@style/RoundImage"
+                             app:strokeColor="@color/white"
+                             app:strokeWidth="7dp" />
+                     </LinearLayout>
+                 </LinearLayout>
+
+                 </HorizontalScrollView>
+
+             </RelativeLayout>
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="100dp"
+                 app:layout_constraintTop_toBottomOf="@id/l1"
+                 android:background="#fff"/>
+         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+     </ScrollView>
+ </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

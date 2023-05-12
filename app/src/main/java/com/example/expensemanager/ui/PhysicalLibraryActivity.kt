@@ -13,11 +13,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensemanager.Adapter.LibraryAdapter
@@ -39,28 +42,27 @@ import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PhysicalLibraryActivity : AppCompatActivity(),LibraryOnClick {
+class PhysicalLibraryActivity : Fragment(), LibraryOnClick {
     private lateinit var binding : ActivityPhysicalLibraryBinding
     private var locationByGps:Location = Location("")
     var locationByNetwork:Location = Location("")
     var latitude:Double = 28.4276740745365
     var longitude:Double = 77.52783498236961
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityPhysicalLibraryBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = ActivityPhysicalLibraryBinding.inflate(inflater, container, false)
 
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
-
-        binding.rv.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rv.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         try {
-            if (ContextCompat.checkSelfPermission(applicationContext,
+            if (ContextCompat.checkSelfPermission(requireContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             ) {
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(requireActivity(),
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     101)
                 checkAP()
@@ -72,20 +74,13 @@ class PhysicalLibraryActivity : AppCompatActivity(),LibraryOnClick {
 
             e.printStackTrace()
         }
-        binding.back.setOnClickListener { finish() }
 
-//        try
-//        {
-//
-//        }
-//        catch (e : Exception) {
-//            Toast.makeText(this, "Check if server is down. Message : ${e.message}", Toast.LENGTH_SHORT).show()
-//        }
+        return binding.root
     }
 
     fun checkAP()
     {
-        checkApiRepo().observe(this){
+        checkApiRepo().observe(requireActivity()){
             when(it.status){
                 Status.LOADING -> {
                     binding.loadingLayout.visibility = View.VISIBLE
@@ -95,7 +90,7 @@ class PhysicalLibraryActivity : AppCompatActivity(),LibraryOnClick {
                         binding.loadingLayout.visibility = View.GONE
                     }, 2000)
                     if(it.code == 200)
-                        binding.rv.adapter = LibraryAdapter(it.data!!.body, this, this@PhysicalLibraryActivity, this)
+                        binding.rv.adapter = LibraryAdapter(it.data!!.body, requireContext(), requireActivity(), this)
                     Log.d("response: ", it.message.toString())
 
                 }
@@ -109,7 +104,7 @@ class PhysicalLibraryActivity : AppCompatActivity(),LibraryOnClick {
 
     @SuppressLint
     fun checkApiRepo() : MutableLiveData<Resource<ResponseModel<LibraryBody>>> {
-        val api = RetrofitHelper().getInstance().create(ApiInterface::class.java)
+        val api = RetrofitHelper(requireContext()).getInstance().create(ApiInterface::class.java)
 
         val mutableLiveData = MutableLiveData<Resource<ResponseModel<LibraryBody>>>()
         mutableLiveData.value = Resource<ResponseModel<LibraryBody>>().loading()
@@ -129,7 +124,7 @@ class PhysicalLibraryActivity : AppCompatActivity(),LibraryOnClick {
     }
 
     override fun onCardListener(position: Int, item: Any) {
-        val intent = Intent(this, SeatBookingActivity::class.java)
+        val intent = Intent(requireContext(), SeatBookingActivity::class.java)
         var model = item as LibraryBody
         intent.putExtra("code", model.libraryCode)
         startActivity(intent)

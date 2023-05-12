@@ -5,32 +5,38 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.WIFI_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.net.wifi.WifiManager
 import android.os.Handler
 import android.os.Looper
+import android.text.format.Formatter
+import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.MutableLiveData
+import com.bumptech.glide.Glide
+import com.example.expensemanager.Network.ApiInterface
+import com.example.expensemanager.Network.RetrofitHelper
 import com.example.expensemanager.R
-import com.example.expensemanager.models.LibraryBody
-import com.example.expensemanager.models.LocationCoordinates
-import com.example.expensemanager.models.SeatViewModel
+import com.example.expensemanager.Utility.Resource
+import com.example.expensemanager.models.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.imageview.ShapeableImageView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
 
 public class ExtensionMethods {
 
@@ -86,7 +92,6 @@ public class ExtensionMethods {
             loadingLayout?.visibility = View.GONE
         }, 2000)
     }
-
     fun showBottomSheetAfterCategory(context: Context, category: String) {
         val dialog = BottomSheetDialog(context)
         dialog.setContentView(R.layout.bottom_sheet_category)
@@ -128,7 +133,57 @@ public class ExtensionMethods {
             loadingLayout?.visibility = View.GONE
         }, 2000)
     }
-    fun toGetDistance(item: LibraryBody, locationCoordinates: LocationCoordinates): String {
+
+    fun showBottomSheetOnBookCLick(context: Context, book: BookInfo) {
+        val dialog = BottomSheetDialog(context)
+        dialog.setContentView(R.layout.bottom_sheet_book)
+        val seatTextView= dialog.findViewById<TextView>(R.id.title)
+        val seatTextView1= dialog.findViewById<TextView>(R.id.libCode)
+        val share= dialog.findViewById<LinearLayout>(R.id.share)
+        val copy= dialog.findViewById<LinearLayout>(R.id.copy)
+        val image= dialog.findViewById<ShapeableImageView>(R.id.qr)
+        val copyInLine= dialog.findViewById<ImageView>(R.id.copyInLine)
+        val loadingLayout= dialog.findViewById<RelativeLayout>(R.id.loadingLayout)
+        seatTextView?.setText(book.bookName)
+        seatTextView1?.setText(book.bookAuthor)
+        val imageByteArray: ByteArray = Base64.decode(book.bookImage, Base64.DEFAULT)
+        Glide.with(context)
+            .asBitmap()
+            .load(imageByteArray)
+            .into(image!!);
+
+        share?.setOnClickListener {
+            val myIntent = Intent(Intent.ACTION_SEND);
+            myIntent.setType("text/plain");
+            val body = "123456";
+            val sub = "Here is your OTP for library";
+            myIntent.putExtra(Intent.EXTRA_SUBJECT,sub);
+            myIntent.putExtra(Intent.EXTRA_TEXT,body);
+            startActivity(context, Intent.createChooser(myIntent, "Share Using"), null)
+            dialog.show()
+        }
+
+        copy?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
+        copyInLine?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
+        dialog.show()
+//        loadingLayout?.visibility = View.VISIBLE
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            loadingLayout?.visibility = View.GONE
+//        }, 2000)
+    }
+    fun tryGetDistance(item: LibraryBody, locationCoordinates: LocationCoordinates): String {
         try{
             var e: Location = Location(LocationManager.GPS_PROVIDER)
             val latitude: Double = e.latitude
@@ -150,8 +205,7 @@ public class ExtensionMethods {
         }
 
     }
-
-    fun toGetCurrentLocation(context: Context, activity: Activity): LocationCoordinates {
+    fun tryGetCurrentLocation(context: Context, activity: Activity): LocationCoordinates {
         try {
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -188,4 +242,49 @@ public class ExtensionMethods {
         }
         return locationCoordinates
     }
+    fun tryGetIPAddress(context: Context) : String{
+        val wifiMgr = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiInfo = wifiMgr!!.connectionInfo
+        val ip = wifiInfo.ipAddress
+        return Formatter.formatIpAddress(wifiMgr.connectionInfo.ipAddress)
+    }
+
+    fun <T : Any>checkApiRepo(klass: Class<T>, context: Context, key:String) : MutableLiveData<Resource<ResponseModel<T>>> {
+        val api = RetrofitHelper(context).getInstance().create(ApiInterface::class.java)
+
+        val mutableLiveData = MutableLiveData<Resource<ResponseModel<T>>>()
+        mutableLiveData.value = Resource<ResponseModel<T>>().loading()
+        when {
+            klass.isAssignableFrom(GenreInfo::class.java) -> {
+                api.getSearchResult(key).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            mutableLiveData.value = Resource<ResponseModel<T>>().success(it as ResponseModel<T>)
+
+                        },
+                        {
+                            mutableLiveData.value = Resource<ResponseModel<T>>().error(it)
+                        }
+                    )
+            }
+            else -> {
+                api.getListOfPopularBooks().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            mutableLiveData.value = Resource<ResponseModel<T>>().success(it as ResponseModel<T>)
+
+                        },
+                        {
+                            mutableLiveData.value = Resource<ResponseModel<T>>().error(it)
+                        }
+                    )
+            }
+        }
+
+
+        return mutableLiveData
+    }
+
 }

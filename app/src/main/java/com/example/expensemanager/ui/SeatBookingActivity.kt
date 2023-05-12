@@ -49,7 +49,7 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
     }
     @SuppressLint
     fun checkApiRepo(code:String) : MutableLiveData<Resource<ResponseModel<SeatViewModel>>> {
-        val api = RetrofitHelper().getInstance().create(ApiInterface::class.java)
+        val api = RetrofitHelper(this).getInstance().create(ApiInterface::class.java)
 
         val mutableLiveData = MutableLiveData<Resource<ResponseModel<SeatViewModel>>>()
         mutableLiveData.value = Resource<ResponseModel<SeatViewModel>>().loading()
@@ -70,7 +70,7 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
 
     @SuppressLint
     fun bookSeatApiRepo(row:Int, seat: Int , code:String) : MutableLiveData<Resource<SeatResponse>> {
-        val api = RetrofitHelper().getInstance().create(ApiInterface::class.java)
+        val api = RetrofitHelper(this).getInstance().create(ApiInterface::class.java)
         val req = SeatRequestModel(row = row, seatNum = seat, libraryCode = code);
         val mutableLiveData = MutableLiveData<Resource<SeatResponse>>()
         mutableLiveData.value = Resource<SeatResponse>().loading()

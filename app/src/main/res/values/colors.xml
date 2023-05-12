@@ -5,4 +5,5 @@
     <color name="selectedSeat">#C51162</color>
     <color name="bookedSeat">#304FFE</color>
     <color name="availableSeat">#E8EAF6</color>
+    <color name="appBackground">#152238</color>
 </resources>
