@@ -14,6 +14,10 @@
         <package android:name="com.google.android.apps.maps" />
     </queries>
 
+    <queries>
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -49,10 +53,12 @@
             android:exported="false" />
         <activity
             android:name=".ui.VirtualLibraryActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".ui.PhysicalLibraryActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

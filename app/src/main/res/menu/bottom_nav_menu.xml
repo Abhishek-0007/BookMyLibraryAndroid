@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/activity_main"
+        android:icon="@drawable/ic_baseline_bungalow_24"
+        android:title="Posts"/>
+
+    <item android:id="@+id/activity_virtual_library"
+        android:icon="@drawable/ic_virtual"
+        android:title="Virtual"/>
+
+    <item android:id="@+id/physicalFragment"
+        android:icon="@drawable/ic_baseline_menu_book_24"
+        android:title="Physical"/>
+
+    <item android:id="@+id/orderFragment"
+        android:icon="@drawable/ic_round_local_library_24"
+        app:showAsAction="always"
+        android:title="Orders"/>
+</menu>
