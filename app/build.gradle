@@ -81,7 +81,7 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.14'
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
 
- 
+    implementation "com.github.sam43:AnimateViewLibrary:1.0.0"
 }
 
 

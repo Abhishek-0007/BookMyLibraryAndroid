@@ -71,8 +71,12 @@ class BookListFragment : Fragment(), BookOnCLick {
         checkApiRepo(code).observe(requireActivity()){
             when(it.status){
                 Status.LOADING -> {
+                    binding.loadingLayout.visibility = View.VISIBLE
                 }
                 Status.SUCCESS -> {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        binding.loadingLayout.visibility = View.GONE
+                    }, 1000)
                     val list = it.data!!.body.map {
                         BookInfo(it.title, it.author, "")
                     }
@@ -81,6 +85,7 @@ class BookListFragment : Fragment(), BookOnCLick {
 
                 }
                 Status.ERROR ->{
+                    binding.loadingLayout.visibility = View.GONE
                     Log.d("error: ", it.message.toString())
                 }
             }

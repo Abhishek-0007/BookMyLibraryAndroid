@@ -31,13 +31,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/back"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:id="@+id/searchBar"
-                android:hint="Author, Books, etc.."
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/baseline_clear_24"
                 android:layout_marginHorizontal="8dp">
@@ -45,9 +44,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/search"
                     android:background="#fff"
+                    android:hint="Author, Books, etc.."
                     android:defaultFocusHighlightEnabled="true"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="50dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
