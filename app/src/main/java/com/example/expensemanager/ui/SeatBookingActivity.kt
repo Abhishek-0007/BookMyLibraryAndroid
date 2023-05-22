@@ -1,7 +1,6 @@
 package com.example.expensemanager.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +8,6 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.expensemanager.Adapter.CategoryAdapter
 import com.example.expensemanager.Adapter.SeatAdapter
 import com.example.expensemanager.Interfaces.SeatsOnClick
 import com.example.expensemanager.Network.ApiInterface
@@ -21,10 +19,14 @@ import com.example.expensemanager.extensions.ExtensionMethods
 import com.example.expensemanager.models.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
     private lateinit var binding:ActivitySeatBookingBinding
-    var code = ""
+    var hallId = 0
+    var slot = 0
+    var date = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySeatBookingBinding.inflate(layoutInflater)
@@ -32,28 +34,30 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
 
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-
         binding.back.setOnClickListener { finish() }
 
         binding.rv.layoutManager = GridLayoutManager(this, 5)
 
         val intent = getIntent()
-        code = intent.getStringExtra("code").toString()
-        Log.d("code", code)
+        hallId = intent.getIntExtra("hallId",0)
+        slot = intent.getIntExtra("slot",0)
+        date = intent.getStringExtra("date").toString()
+        if (date.isEmpty()) date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        println("date: $date")
         try {
-            checkAPI(code)
+            checkAPI()
         }
         catch (e:Exception)
         {}
 
     }
     @SuppressLint
-    fun checkApiRepo(code:String) : MutableLiveData<Resource<ResponseModel<SeatViewModel>>> {
+    fun seatAPI() : MutableLiveData<Resource<ResponseModel<SeatViewModel>>> {
         val api = RetrofitHelper(this).getInstance().create(ApiInterface::class.java)
 
         val mutableLiveData = MutableLiveData<Resource<ResponseModel<SeatViewModel>>>()
         mutableLiveData.value = Resource<ResponseModel<SeatViewModel>>().loading()
-        api.getSeatsByLibraryCode(code).subscribeOn(Schedulers.io())
+        api.getSeatsByLibraryCode(hallId, slot, date).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
@@ -67,14 +71,12 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
 
         return mutableLiveData
     }
-
     @SuppressLint
-    fun bookSeatApiRepo(row:Int, seat: Int , code:String) : MutableLiveData<Resource<SeatResponse>> {
+    fun bookSeatApiRepo( model: SeatBookRequestModel) : MutableLiveData<Resource<SeatResponse>> {
         val api = RetrofitHelper(this).getInstance().create(ApiInterface::class.java)
-        val req = SeatRequestModel(row = row, seatNum = seat, libraryCode = code);
         val mutableLiveData = MutableLiveData<Resource<SeatResponse>>()
         mutableLiveData.value = Resource<SeatResponse>().loading()
-        api.bookSeats(req).subscribeOn(Schedulers.io())
+        api.bookSeats(model).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
@@ -88,35 +90,35 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
         return mutableLiveData
     }
 
-    fun checkAPI(code: String)
+    @SuppressLint("NotifyDataSetChanged")
+    fun checkAPI()
     {
-        checkApiRepo(code).observe(this){
+        seatAPI().observe(this){
             when(it.status){
                 Status.LOADING -> {
                 }
                 Status.SUCCESS -> {
                     if(it.code == 200)
                         binding.rv.adapter = SeatAdapter(it.data!!.body, this)
+                    binding.rv.adapter?.notifyDataSetChanged()
                     Log.d("response: ", it.message.toString())
-
                 }
                 Status.ERROR ->{
                     Log.d("error: ", it.message.toString())
-
                 }
             }
         }
     }
 
-    fun bookSeat(row: Int, code: String, seat: Int)
+    fun bookSeat(model: SeatBookRequestModel)
     {
-        bookSeatApiRepo(row, seat, code).observe(this){
+        bookSeatApiRepo(model).observe(this){
             when(it.status){
                 Status.LOADING -> {
                 }
                 Status.SUCCESS -> {
                     if(it.code == 200){
-                        checkAPI(code)
+                        checkAPI()
                     }
                     Log.d("response: ", it.message.toString())
                 }
@@ -129,6 +131,15 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
     }
 
     override fun onSeatClick(seatNumber: Int, row: Int) {
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd")
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        val localDate = LocalDate.parse(date, inputFormatter)
+        val outputDate = localDate.format(outputFormatter)
+        val model = SeatBookRequestModel(
+            hall_id = hallId.toInt(), seat_id = (row*5+seatNumber), slot_id = slot.toInt(), "test", outputDate
+        )
+        println(model)
         val builder: AlertDialog.Builder = this.let {
             AlertDialog.Builder(it)
         }
@@ -139,8 +150,8 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
         builder.apply {
             setPositiveButton("Confirm") { dialog, id ->
                 val selectedId = id
-                bookSeat(row, code, seatNumber)
-                ExtensionMethods().showBottomSheetAfterSeatBooking(this@SeatBookingActivity, "${row}-${seatNumber}", code)
+                bookSeat(model)
+                ExtensionMethods().showBottomSheetAfterSeatBooking(this@SeatBookingActivity, "${row}-${seatNumber}", "Library")
             }
             setNegativeButton("Cancel") { dialog, id ->
                 val selectedId = id

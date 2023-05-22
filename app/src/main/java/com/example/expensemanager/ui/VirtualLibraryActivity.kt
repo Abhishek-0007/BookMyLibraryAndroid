@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.expensemanager.Adapter.CategoryAdapter
 import com.example.expensemanager.Adapter.LibraryAdapter
@@ -37,6 +38,7 @@ class VirtualLibraryActivity : Fragment(), CategoryOnClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = ActivityVirtualLibraryBinding.inflate(inflater, container, false)
+        binding.back.setOnClickListener { findNavController().navigateUp() }
         binding.rv.layoutManager = GridLayoutManager(requireContext(), 3)
         try{
             checkAP()

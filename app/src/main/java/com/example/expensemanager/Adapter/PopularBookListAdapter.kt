@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.expensemanager.Interfaces.BookOnCLick
 import com.example.expensemanager.databinding.BookItemLayoutBinding
 import com.example.expensemanager.models.BookInfo
+import com.google.android.material.R
 
 
 class PopularBookListAdapter(var items: List<BookInfo>, var listener: BookOnCLick) : RecyclerView.Adapter<PopularBookListAdapter.DataViewHolder>() {
@@ -25,6 +26,7 @@ class PopularBookListAdapter(var items: List<BookInfo>, var listener: BookOnCLic
         Glide.with(holder.binding.root)
             .asBitmap()
             .load(imageByteArray)
+            .error(com.example.expensemanager.R.drawable.bookdefault)
             .into(holder.binding.image)
         val maxLen : Int = if(item.bookName?.length!! >= 16) 16 else item.bookName?.length!!
         holder.binding.name.setText(item.bookName?.substring(0,maxLen))

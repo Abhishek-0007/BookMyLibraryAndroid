@@ -8,12 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.ActivityHostBinding
 
 class HostActivity : AppCompatActivity() {
     private lateinit var binding : ActivityHostBinding
-    private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     @SuppressLint("CommitTransaction", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,27 +25,28 @@ class HostActivity : AppCompatActivity() {
         navController.navigate(R.id.mainFragment)
         setContentView(binding.root)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-//        binding.search.setOnClickListener {
-//            navController.navigate(R.id.searchFragment)
-//            binding.bottomNav.selectedItemId = R.id.Search
-//        }
-
-        binding.bottomNav.setOnItemSelectedListener {it ->
-            when(it.itemId){
-                R.id.profile -> {
-                    navController.navigate(R.id.settingsFragment)
-                    true}
-
-                R.id.home -> {
+        setupBottomBar()
+    }
+    fun setupBottomBar(){
+         binding.bottomBar.setOnItemSelectedListener{
+            println("id: $it")
+            when(it){
+                0 ->
+                {
                     navController.navigate(R.id.mainFragment)
-                    true
                 }
-                R.id.Search -> {
-                    navController.navigate(R.id.searchFragment)
-                    true
+
+                1 -> {
+                    navController.navigate(R.id.virtualLibraryActivity)
+
                 }
-                else -> {false}
+                2 -> {
+                    navController.navigate(R.id.physicalLibraryActivity)
+
+                }
+                else -> {navController.navigate(R.id.settingsFragment)}
             }
         }
+
     }
 }

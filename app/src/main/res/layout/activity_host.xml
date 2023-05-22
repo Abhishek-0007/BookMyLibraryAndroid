@@ -19,17 +19,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/bottomNav"
+            app:layout_constraintBottom_toTopOf="@id/bottomBar"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"/>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNav"
+        <me.ibrahimsn.lib.SmoothBottomBar
+            android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/bottom_nav" />
-
+            app:backgroundColor="@color/appBackground"
+            app:menu="@menu/bottom_nav_menu"  />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
