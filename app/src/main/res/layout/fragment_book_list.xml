@@ -12,6 +12,24 @@
         android:layout_height="match_parent"
         tools:context=".ui.BookListFragment">
 
+        <RelativeLayout
+            android:id="@+id/loadingLayout"
+            android:elevation="1dp"
+            android:visibility="gone"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="1dp"
+                android:backgroundTint="@color/white"
+                android:layout_centerInParent="true"
+                android:src="@drawable/loading"/>
+
+        </RelativeLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/toolbar"
             app:layout_constraintTop_toTopOf="parent"

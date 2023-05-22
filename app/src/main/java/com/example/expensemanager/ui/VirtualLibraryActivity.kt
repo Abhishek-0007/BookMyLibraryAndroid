@@ -26,6 +26,7 @@ import com.example.expensemanager.Utility.Resource
 import com.example.expensemanager.Utility.Status
 import com.example.expensemanager.databinding.ActivityVirtualLibraryBinding
 import com.example.expensemanager.extensions.ExtensionMethods
+import com.example.expensemanager.models.GenreInfo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -141,7 +142,9 @@ class VirtualLibraryActivity : Fragment(), CategoryOnClick {
     }
 
     override fun categoryClickListener(position: Int, model: Any) {
-//        var str = model as String
-//        checkAPIForBooks(str)
+        val item = model as String
+        val bundle = Bundle()
+        bundle.putString("genre",item)
+        findNavController().navigate(R.id.bookListFragment, bundle)
     }
 }

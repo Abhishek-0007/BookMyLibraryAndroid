@@ -1,15 +1,20 @@
 package com.example.expensemanager.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
+import android.view.animation.Animation
+import com.app.lets_go_splash.OnAnimationListener
+import com.app.lets_go_splash.StarterAnimation
 import com.example.expensemanager.MainActivity
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.ActivitySplashScreenBinding
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySplashScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +48,6 @@ class SplashScreenActivity : AppCompatActivity() {
             val intent = Intent(this@SplashScreenActivity, HostActivity::class.java)
             startActivity(intent)
             finish()
-        }, 1)
+        }, 5000)
     }
 }

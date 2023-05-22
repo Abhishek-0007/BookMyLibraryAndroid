@@ -30,12 +30,12 @@ class LibraryAdapter(var items : List<LibraryBody>, var context: Context,var  ac
         var locate = ExtensionMethods().tryGetCurrentLocation(context = context, activity = activity)
 //        holder.binding.distanceLib.setText(ExtensionMethods().tryGetDistance(item, locate))
 
-//            holder.binding.send.setOnClickListener {
-//                val url = Uri.parse("google.navigation:q=" + item.latitude + "," + item.logitude )
-//                val intent = Intent(Intent.ACTION_VIEW, url)
-//                intent.setPackage("com.google.android.apps.maps")
-//                startActivity(context, intent, null)
-//            }
+            holder.binding.send.setOnClickListener {
+                val url = Uri.parse("google.navigation:q=" + item.latitude + "," + item.logitude )
+                val intent = Intent(Intent.ACTION_VIEW, url)
+                intent.setPackage("com.google.android.apps.maps")
+                startActivity(context, intent, null)
+            }
         holder.binding.titleLib.setText("${item.libraryCode}")
 
             holder.binding.tvShowTime1.setOnClickListener {
