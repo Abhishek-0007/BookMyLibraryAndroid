@@ -15,17 +15,20 @@ interface ApiInterface {
     fun getAllCategories() : Single<ResponseModel<String>>
 
 
-    @GET("Library/get-seats")
-    fun getSeatsByLibraryCode(@Query("code") code: String) : Single<ResponseModel<SeatViewModel>>
+    @GET("Seat/get-seats-by-hallID")
+    fun getSeatsByLibraryCode(@Query("hallId") hallId: Int, @Query("slotId") slotId: Int,
+                              @Query("date") date: String) : Single<ResponseModel<SeatViewModel>>
 
-    @POST("Library/update-seats")
-    fun bookSeats(@Body model: SeatRequestModel) : Single<SeatResponse>
+    @POST("Seat/book-seat")
+    fun bookSeats(@Body model: SeatBookRequestModel) : Single<SeatResponse>
 
     @GET("Books/get-popular-books")
     fun getListOfPopularBooks() : Single<ResponseModel<BookInfo>>
 
     @GET("Books/get-genres")
     fun getListOfGenres() : Single<ResponseModel<GenreInfo>>
+    @GET("Books/get-books-for-genre")
+    fun getListOfBooks(@Query("genre") genre: String) : Single<ResponseModel<BookModel>>
     @GET("Books/search-books")
     fun getSearchResult(@Query("search") code: String) : Single<ResponseModel<SearchModel>>
     @GET("Books/get-books-for-genre")

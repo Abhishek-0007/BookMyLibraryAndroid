@@ -26,7 +26,7 @@ class SeatAdapter(var items : List<SeatViewModel>, var listener:SeatsOnClick) : 
                 it.setOnClickListener {
                     if(item.firstSeat != 1){
                         it.background.setTint(Color.parseColor("#C51162"))
-                        clickHelper(1,position+1) }
+                        clickHelper(1,position) }
                     }
 
         }
@@ -35,7 +35,7 @@ class SeatAdapter(var items : List<SeatViewModel>, var listener:SeatsOnClick) : 
             it.setOnClickListener {
                 if(item.secondSeat != 1){
                     it.background.setTint(Color.parseColor("#C51162"))
-                    clickHelper(2,position+1)
+                    clickHelper(2,position)
                 }
             }
 
@@ -45,7 +45,7 @@ class SeatAdapter(var items : List<SeatViewModel>, var listener:SeatsOnClick) : 
             it.setOnClickListener {
                 if(item.thirdSeat != 1){
                     it.background.setTint(Color.parseColor("#C51162"))
-                    clickHelper(3,position+1)
+                    clickHelper(3,position)
                 }
             }
         }
@@ -54,7 +54,7 @@ class SeatAdapter(var items : List<SeatViewModel>, var listener:SeatsOnClick) : 
             it.setOnClickListener {
                 if(item.fourthSeat != 1){
                     it.background.setTint(Color.parseColor("#C51162"))
-                    clickHelper(4,position+1)
+                    clickHelper(4,position)
                 }
             }
         }
@@ -63,7 +63,7 @@ class SeatAdapter(var items : List<SeatViewModel>, var listener:SeatsOnClick) : 
             it.setOnClickListener {
                 if(item.fifthSeat != 1){
                     it.background.setTint(Color.parseColor("#C51162"))
-                    clickHelper(5,position+1)
+                    clickHelper(5,position)
                 }
             }
         }

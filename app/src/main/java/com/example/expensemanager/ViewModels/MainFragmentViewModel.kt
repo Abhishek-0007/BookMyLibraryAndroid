@@ -6,7 +6,7 @@ import com.example.expensemanager.models.BookInfo
 import com.example.expensemanager.models.GenreInfo
 import com.example.expensemanager.models.SearchModel
 
-class SearchViewModel:ViewModel() {
-    val mutableLiveData = MutableLiveData<List<SearchModel>>()
-
+class MainFragmentViewModel:ViewModel() {
+    var mutableLiveDataGenre = MutableLiveData<List<GenreInfo>>()
+    val mutableLiveDataBook = MutableLiveData<List<BookInfo>>()
 }

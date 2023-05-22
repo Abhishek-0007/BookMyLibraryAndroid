@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -20,10 +21,15 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.expensemanager.Adapter.DateAdapter
 import com.example.expensemanager.Adapter.LibraryAdapter
+import com.example.expensemanager.Interfaces.BookOnCLick
+import com.example.expensemanager.Interfaces.DateClickListener
 import com.example.expensemanager.Interfaces.LibraryOnClick
 import com.example.expensemanager.MainActivity
 import com.example.expensemanager.models.LibraryBody
@@ -34,6 +40,8 @@ import com.example.expensemanager.R
 import com.example.expensemanager.Utility.Resource
 import com.example.expensemanager.Utility.Status
 import com.example.expensemanager.databinding.ActivityPhysicalLibraryBinding
+import com.example.expensemanager.extensions.ExtensionMethods
+import com.example.expensemanager.models.DateModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -42,22 +50,20 @@ import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PhysicalLibraryActivity : Fragment(), LibraryOnClick {
+class PhysicalLibraryActivity : Fragment(), LibraryOnClick, DateClickListener {
     private lateinit var binding : ActivityPhysicalLibraryBinding
-    private var locationByGps:Location = Location("")
-    var locationByNetwork:Location = Location("")
-    var latitude:Double = 28.4276740745365
-    var longitude:Double = 77.52783498236961
-
+    var SelectedDate = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = ActivityPhysicalLibraryBinding.inflate(inflater, container, false)
-
+        binding.back.setOnClickListener { findNavController().navigateUp() }
         binding.rv.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.dateRv.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
+        binding.dateRv.adapter = DateAdapter(ExtensionMethods().Get7Dates(), this)
         try {
             if (ContextCompat.checkSelfPermission(requireContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -125,9 +131,15 @@ class PhysicalLibraryActivity : Fragment(), LibraryOnClick {
 
     override fun onCardListener(position: Int, item: Any) {
         val intent = Intent(requireContext(), SeatBookingActivity::class.java)
-        var model = item as LibraryBody
-        intent.putExtra("code", model.libraryCode)
+        val model = item as LibraryBody
+        intent.putExtra("hallId", model.hallId)
+        intent.putExtra("slot", position)
+        intent.putExtra("date", SelectedDate)
         startActivity(intent)
+    }
+    override fun dateOnClick(position: Int, model: Any) {
+        val item = model as DateModel
+        SelectedDate = "2023-${item.month}-${item.date}"
     }
 
 }

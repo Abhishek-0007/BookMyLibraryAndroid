@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.FragmentSettingsBinding
 
@@ -17,6 +18,7 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(layoutInflater, container, false)
+        binding.back.setOnClickListener { findNavController().navigateUp() }
         return binding.root
     }
 }

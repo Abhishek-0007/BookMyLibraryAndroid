@@ -19,6 +19,12 @@
         <action
             android:id="@+id/action_mainFragment_to_virtualLibraryActivity"
             app:destination="@id/virtualLibraryActivity" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_bookListFragment"
+            app:destination="@id/bookListFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -31,9 +37,22 @@
     <fragment
         android:id="@+id/virtualLibraryActivity"
         android:name="com.example.expensemanager.ui.VirtualLibraryActivity"
-        android:label="VirtualLibraryActivity" />
+        android:label="VirtualLibraryActivity" >
+        <action
+            android:id="@+id/action_virtualLibraryActivity_to_bookListFragment"
+            app:destination="@id/bookListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.expensemanager.ui.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/bookListFragment"
+        android:name="com.example.expensemanager.ui.BookListFragment"
+        android:label="BookListFragment" >
+        <argument
+            android:name="genre"
+            app:argType="string"
+            android:defaultValue="tech" />
+    </fragment>
 </navigation>

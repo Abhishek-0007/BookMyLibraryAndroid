@@ -1,6 +1,7 @@
 package com.example.expensemanager.extensions
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -36,6 +37,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 public class ExtensionMethods {
@@ -285,6 +290,38 @@ public class ExtensionMethods {
 
 
         return mutableLiveData
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getDate(calendar: Calendar) : DateModel{
+        val date = SimpleDateFormat("dd")
+        val date_string = date.format(calendar.getTime())
+
+        val day = SimpleDateFormat("EEE")
+        val day_string = day.format(calendar.getTime())
+
+        val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
+
+        return DateModel(day_string, date_string, currentMonth)
+    }
+    @SuppressLint("SimpleDateFormat")
+    fun Get7Dates(): List<DateModel>{
+        val calendar = Calendar.getInstance()
+        val datee = SimpleDateFormat("dd")
+        val date_string = datee.format(calendar.getTime())
+        val month = SimpleDateFormat("MM")
+        val month_string = month.format(calendar.getTime()).toInt()
+        var i = 0
+        val list = arrayListOf<DateModel>()
+        while (i < 8)
+        {
+            val d= date_string.toInt()+i
+            calendar.set(2023,month_string,d)
+            val date = getDate(calendar)
+            i++
+            list.add(date)
+        }
+        return list
     }
 
 }

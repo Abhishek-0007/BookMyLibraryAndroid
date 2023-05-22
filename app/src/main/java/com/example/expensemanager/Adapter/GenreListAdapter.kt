@@ -12,7 +12,7 @@ import com.example.expensemanager.databinding.GenreItemLayoutBinding
 import com.example.expensemanager.models.BookInfo
 import com.example.expensemanager.models.GenreInfo
 
-class GenreListAdapter(var items: List<GenreInfo> ) : RecyclerView.Adapter<GenreListAdapter.DataViewHolder>() {
+class GenreListAdapter(var items: List<GenreInfo>, val listener:GenreOnCLick ) : RecyclerView.Adapter<GenreListAdapter.DataViewHolder>() {
     inner class DataViewHolder(val binding : GenreItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
@@ -28,6 +28,8 @@ class GenreListAdapter(var items: List<GenreInfo> ) : RecyclerView.Adapter<Genre
             .load(imageByteArray)
             .into(holder.binding.image)
         holder.binding.name.setText(item.genreTitle)
+
+        holder.binding.root.setOnClickListener { listener.genreOnClickListener(position, item) }
     }
 
 }
