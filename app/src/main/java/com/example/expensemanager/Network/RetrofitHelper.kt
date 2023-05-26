@@ -15,7 +15,7 @@ import java.security.cert.X509Certificate
 import javax.net.ssl.*
 
 class RetrofitHelper(val context: Context) {
-    val baseUrl = "http://serverlibrary-001-site1.gtempurl.com/api/"
+    val baseUrl = "https://10.0.2.2:7006/api/"
     //http client to accept all ssl certificates
     fun OkHttpClient.Builder.ignoreAllSSLErrors(): OkHttpClient.Builder {
         val naiveTrustManager = object : X509TrustManager {

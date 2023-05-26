@@ -48,6 +48,10 @@ class VirtualLibraryActivity : Fragment(), CategoryOnClick {
             Toast.makeText(requireContext(), "Server down maybe", Toast.LENGTH_SHORT).show()
         }
 
+//        binding.goVirtual.setOnClickListener {
+//            binding.loadingLayout.visibility = View.VISIBLE
+////            findNavController().navigate(1) // yet to impl
+//        }
         return binding.root
     }
 

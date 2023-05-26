@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.example.expensemanager.Interfaces.BookOnCLick
 import com.example.expensemanager.databinding.BookItemLayoutBinding
 import com.example.expensemanager.models.BookInfo
@@ -23,11 +25,20 @@ class PopularBookListAdapter(var items: List<BookInfo>, var listener: BookOnCLic
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val item = items[position]
         val imageByteArray: ByteArray = Base64.decode(item.bookImage, Base64.DEFAULT)
-        Glide.with(holder.binding.root)
-            .asBitmap()
-            .load(imageByteArray)
-            .error(com.example.expensemanager.R.drawable.bookdefault)
-            .into(holder.binding.image)
+        val theImage = GlideUrl(
+            item.bookImage, LazyHeaders.Builder()
+                .addHeader("User-Agent",
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit / 537.36(KHTML, like Gecko) Chrome  47.0.2526.106 Safari / 537.36")
+                .build()
+        )
+        theImage.let {
+            Glide.with(holder.binding.root.context)
+                .load(theImage)
+                .error(com.example.expensemanager.R.drawable.bookdefault)
+                .into(holder.binding.image)
+        }
+
+
         val maxLen : Int = if(item.bookName?.length!! >= 16) 16 else item.bookName?.length!!
         holder.binding.name.setText(item.bookName?.substring(0,maxLen))
         holder.binding.image.setOnClickListener{

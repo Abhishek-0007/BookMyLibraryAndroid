@@ -39,7 +39,7 @@ class SearchFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         bindAdapter()
         binding.search.requestFocus()
-        showKeyboard(requireContext())
+//        showKeyboard(requireContext())
 
         binding.search.doOnTextChanged {text, start, count, after ->
             if(text!!.isNotEmpty())

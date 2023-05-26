@@ -27,11 +27,17 @@ interface ApiInterface {
 
     @GET("Books/get-genres")
     fun getListOfGenres() : Single<ResponseModel<GenreInfo>>
+
     @GET("Books/get-books-for-genre")
     fun getListOfBooks(@Query("genre") genre: String) : Single<ResponseModel<BookModel>>
+
     @GET("Books/search-books")
     fun getSearchResult(@Query("search") code: String) : Single<ResponseModel<SearchModel>>
+
     @GET("Books/get-books-for-genre")
     fun getBooksForCategory(@Query("genre") code: String) : Single<ResponseModel<String>>
+
+    @POST("VirtualWeb/add-go-virtual")
+    fun addGenreToDB(@Query("name") name: String, @Query("email") email: String, @Query("genreCode") genreCode: String) : Single<SeatResponse>
 
 }

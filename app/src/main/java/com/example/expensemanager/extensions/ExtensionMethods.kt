@@ -97,6 +97,54 @@ public class ExtensionMethods {
             loadingLayout?.visibility = View.GONE
         }, 2000)
     }
+
+    fun showBottomSheetAfterVirtual(context: Context, librarycode:String, otp:String) {
+        val dialog = BottomSheetDialog(context)
+        dialog.setContentView(R.layout.bottom_sheet_virtual_layout)
+        val seatTextView= dialog.findViewById<TextView>(R.id.seatIdDesc)
+        val tv1= dialog.findViewById<TextView>(R.id.tv1)
+        val tv2= dialog.findViewById<TextView>(R.id.tv2)
+        val tv3= dialog.findViewById<TextView>(R.id.tv3)
+        val tv4= dialog.findViewById<TextView>(R.id.tv4)
+        val share= dialog.findViewById<LinearLayout>(R.id.share)
+        val copy= dialog.findViewById<LinearLayout>(R.id.copy)
+        val copyInLine= dialog.findViewById<ImageView>(R.id.copyInLine)
+        val loadingLayout= dialog.findViewById<RelativeLayout>(R.id.loadingLayout)
+        tv1?.setText(otp.get(0).toString())
+        tv2?.setText(otp.get(1).toString())
+        tv3?.setText(otp.get(2).toString())
+        tv4?.setText(otp.get(3).toString())
+
+        share?.setOnClickListener {
+            val myIntent = Intent(Intent.ACTION_SEND);
+            myIntent.setType("text/plain");
+            val sub = "Here is your OTP for virtual library";
+            myIntent.putExtra(Intent.EXTRA_SUBJECT,sub);
+            myIntent.putExtra(Intent.EXTRA_TEXT,otp);
+            startActivity(context, Intent.createChooser(myIntent, "Share Using"), null)
+            dialog.show()
+        }
+
+        copy?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
+        copyInLine?.setOnClickListener {
+            val clipboard = context.applicationContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText("label", "123456")
+            clipboard!!.setPrimaryClip(clip)
+            Toast.makeText(context, "OTP Copied", Toast.LENGTH_SHORT).show()
+        }
+
+        dialog.show()
+        loadingLayout?.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingLayout?.visibility = View.GONE
+        }, 2000)
+    }
     fun showBottomSheetAfterCategory(context: Context, category: String) {
         val dialog = BottomSheetDialog(context)
         dialog.setContentView(R.layout.bottom_sheet_category)
