@@ -16,8 +16,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensemanager.Adapter.SearchAdapter
+import com.example.expensemanager.Interfaces.SearchOnCLick
 import com.example.expensemanager.Network.ApiInterface
 import com.example.expensemanager.Network.RetrofitHelper
+import com.example.expensemanager.R
 import com.example.expensemanager.Utility.Resource
 import com.example.expensemanager.Utility.Status
 import com.example.expensemanager.ViewModels.SearchViewModel
@@ -28,7 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchOnCLick {
     private lateinit var binding : FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModels()
     override fun onCreateView(
@@ -102,7 +104,7 @@ class SearchFragment : Fragment() {
             if (binding.searchRv.layoutManager == null)
                  binding.searchRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             if (binding.searchRv.adapter == null)
-                binding.searchRv.adapter = SearchAdapter(list, requireContext())
+                binding.searchRv.adapter = SearchAdapter(list, requireContext(), this)
 
             binding.searchRv.adapter!!.notifyDataSetChanged()
 
@@ -132,6 +134,17 @@ class SearchFragment : Fragment() {
             )
 
         return mutableLiveData
+    }
+
+    override fun searchOnClickListener(position: Int, model: Any, x : String, y : String) {
+        val item = model as SearchModel
+        val bundle = Bundle()
+        bundle.putString("bookImage",item.imageUrl)
+        bundle.putString("bookTitle",item.title)
+        bundle.putString("bookAuthor",item.author)
+        bundle.putString("x",x)
+        bundle.putString("y",y)
+        findNavController().navigate(R.id.bookDetailFragment, bundle)
     }
 
 }

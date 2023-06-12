@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.VIewPagerGenericFragment">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:text="Gain a comprehensive understanding of the book with a detailed and engaging description. Discover the central themes, plotlines, and characters that await you within its pages. Get a glimpse of the author's writing style and the overall tone of the narrative."
+                />
+
+            <LinearLayout
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_golden" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_golden" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_golden" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_golden" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star_grey" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/review"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:lineSpacingExtra="5dp"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:text="Unlock the door to endless literary possibilities with My Library. From intriguing book descriptions and reader reviews to author biographies and personalized recommendations, the book detail page offers a wealth of information to guide your reading journey. Immerse yourself in the captivating stories that await you on your digital bookshelf." />
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

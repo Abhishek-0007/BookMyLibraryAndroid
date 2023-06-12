@@ -42,7 +42,7 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
         hallId = intent.getIntExtra("hallId",0)
         slot = intent.getIntExtra("slot",0)
         date = intent.getStringExtra("date").toString()
-        if (date.isEmpty()) date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        if (date.isEmpty()) date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd"));
         println("date: $date")
         try {
             checkAPI()
@@ -131,13 +131,17 @@ class SeatBookingActivity : AppCompatActivity(), SeatsOnClick {
     }
 
     override fun onSeatClick(seatNumber: Int, row: Int) {
-        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd")
-        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd")
+//        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-        val localDate = LocalDate.parse(date, inputFormatter)
-        val outputDate = localDate.format(outputFormatter)
+//        val localDate = LocalDate.parse(date, inputFormatter)
+//        val outputDate = localDate.format(outputFormatter)
+        var d = date.substring(5, (date.substring(5,date.length)).indexOf('-')+5)
+        var t = ExtensionMethods().TryGetMonthNumber(d)
+        if(t.isNullOrEmpty()) t = "06"
+        date = date.replace(d,t)
         val model = SeatBookRequestModel(
-            hall_id = hallId.toInt(), seat_id = (row*5+seatNumber), slot_id = slot.toInt(), "test", outputDate
+            hall_id = hallId.toInt(), seat_id = (row*5+seatNumber), slot_id = slot.toInt(), "test", date
         )
         println(model)
         val builder: AlertDialog.Builder = this.let {

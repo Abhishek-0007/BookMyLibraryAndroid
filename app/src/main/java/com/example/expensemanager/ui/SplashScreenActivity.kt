@@ -8,15 +8,18 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
 import android.view.animation.Animation
+import androidx.activity.viewModels
 import com.app.lets_go_splash.OnAnimationListener
 import com.app.lets_go_splash.StarterAnimation
 import com.example.expensemanager.MainActivity
 import com.example.expensemanager.R
+import com.example.expensemanager.ViewModels.LiveDataViewModel
 import com.example.expensemanager.databinding.ActivitySplashScreenBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySplashScreenBinding
+    private val viewModel: LiveDataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)

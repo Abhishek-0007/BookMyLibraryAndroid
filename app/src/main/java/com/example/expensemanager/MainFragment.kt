@@ -40,22 +40,25 @@ class MainFragment : Fragment(), BookOnCLick, GenreOnCLick  {
     val handler = Handler()
     var origPosition: Int = 0
     private val viewModel: MainFragmentViewModel by viewModels()
+    private var countLive = MutableLiveData<Int>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        binding.booksRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.booksRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.genresRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.slider.adapter = SliderAdapter(imageSetter())
         binding.search.setOnClickListener { findNavController().navigate(R.id.searchFragment) }
-        val delay:Long = 2000 // 1000 milliseconds == 1 second
+        val delay:Long = 1500 // 1000 milliseconds == 1 second
+        var countint = 0
+        if (countLive.value == null)countLive.value = 0
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                if (binding.slider.currentItem >= 6) binding.slider.currentItem = 0
-                binding.slider.setCurrentItem(binding.slider.currentItem++)
+                if (countint >= 6) countint = 0
+                countLive.value = (countint++)
                 handler.postDelayed(this, delay)
             }
         }, delay)
@@ -151,6 +154,10 @@ class MainFragment : Fragment(), BookOnCLick, GenreOnCLick  {
             else
                 binding.genresRv.visibility = View.VISIBLE
         }
+
+        countLive.observe(requireActivity()){
+            binding.slider.setCurrentItem(it)
+        }
     }
 
     @SuppressLint
@@ -189,7 +196,7 @@ class MainFragment : Fragment(), BookOnCLick, GenreOnCLick  {
         }
         return mutableLiveData
     }
-    override fun bookOnClickListener(position: Int, model: Any) {
+    override fun bookOnClickListener(position: Int, model: Any, x : View, y : String) {
         val item = model as BookInfo
         ExtensionMethods().showBottomSheetOnBookCLick(requireContext(), item)
     }

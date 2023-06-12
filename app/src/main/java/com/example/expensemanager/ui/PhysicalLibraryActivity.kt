@@ -63,7 +63,7 @@ class PhysicalLibraryActivity : Fragment(), LibraryOnClick, DateClickListener {
         binding.rv.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.dateRv.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        binding.dateRv.adapter = DateAdapter(ExtensionMethods().Get7Dates(), this)
+        binding.dateRv.adapter = DateAdapter(ExtensionMethods().Get7DatesStatic(), this)
         try {
             if (ContextCompat.checkSelfPermission(requireContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED

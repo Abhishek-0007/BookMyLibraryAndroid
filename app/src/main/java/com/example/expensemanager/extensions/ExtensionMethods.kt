@@ -372,4 +372,42 @@ public class ExtensionMethods {
         return list
     }
 
+    fun Get7DatesStatic(): List<DateModel>{
+        val list = arrayListOf<DateModel>()
+        val dateFormatter = DateTimeFormatter.ofPattern("dd")
+        val dayFormatter = DateTimeFormatter.ofPattern("E")
+        val monthFormatter = DateTimeFormatter.ofPattern("MMMM")
+
+        val currentDate = LocalDate.now()
+
+        for (i in 0 until 7) {
+            val date = currentDate.plusDays(i.toLong())
+            val day = date.format(dayFormatter)
+            val formattedDate = date.format(dateFormatter)
+            val formattedMonth = date.format(monthFormatter)
+
+            val model = DateModel(day, formattedDate, formattedMonth)
+            list.add(model)
+        }
+
+        return list
+    }
+    fun TryGetMonthNumber(month:String) : String?{
+        val monthMap = hashMapOf<String, String>(
+            "January" to "01",
+            "February" to "02",
+            "March" to "03",
+            "April" to "04",
+            "May" to "05",
+            "June" to "06",
+            "July" to "07",
+            "August" to "08",
+            "September" to "09",
+            "October" to "10",
+            "November" to "11",
+            "December" to "12"
+        )
+        return monthMap.get(month)
+    }
+
 }

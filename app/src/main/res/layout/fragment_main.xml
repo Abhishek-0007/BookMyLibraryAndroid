@@ -238,16 +238,21 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  app:layout_constraintTop_toBottomOf="@id/topLayout"
-                 android:text="Top Selling Books!"
+                 android:text="Popular!"
+                 android:textSize="22sp"
                  android:textColor="@color/black"
                  android:fontFamily="sans-serif-black"
                  android:layout_margin="16dp"/>
 
              <androidx.recyclerview.widget.RecyclerView
                  android:id="@+id/booksRv"
-                 android:layout_width="match_parent"
+                 android:layout_width="0dp"
                  android:layout_height="wrap_content"
-                 android:maxHeight="200dp"
+                 android:scrollbars="vertical"
+                 app:layout_constrainedHeight="true"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHeight_max="300dp"
+                 app:layout_constraintStart_toStartOf="parent"
                  app:layout_constraintTop_toBottomOf="@id/tv1"/>
 
              <TextView

@@ -13,13 +13,14 @@ import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.expensemanager.Interfaces.SearchOnCLick
 import com.example.expensemanager.databinding.SearchItemLayoutBinding
 import com.example.expensemanager.models.SearchModel
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
 
 
-class SearchAdapter(val items:List<SearchModel>, val context : Context) : RecyclerView.Adapter<SearchAdapter.DataViewHolder>() {
+class SearchAdapter(val items:List<SearchModel>, val context : Context, val listener:SearchOnCLick) : RecyclerView.Adapter<SearchAdapter.DataViewHolder>() {
     inner class DataViewHolder(val binding : SearchItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
@@ -43,5 +44,9 @@ class SearchAdapter(val items:List<SearchModel>, val context : Context) : Recycl
 
         holder.binding.bookName.setText(item.title)
         holder.binding.authorName.setText(item.author)
+
+        holder.binding.search.setOnClickListener {
+            listener.searchOnClickListener(position, item, holder.itemView.x.toString(), holder.itemView.y.toString())
+        }
     }
 }

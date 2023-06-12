@@ -25,11 +25,18 @@
         <action
             android:id="@+id/action_mainFragment_to_bookListFragment"
             app:destination="@id/bookListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.expensemanager.ui.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/physicalLibraryActivity"
         android:name="com.example.expensemanager.ui.PhysicalLibraryActivity"
@@ -54,5 +61,23 @@
             android:name="genre"
             app:argType="string"
             android:defaultValue="tech" />
+        <action
+            android:id="@+id/action_bookListFragment_to_qrScreenFragment"
+            app:destination="@id/qrScreenFragment" />
+        <action
+            android:id="@+id/action_bookListFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrScreenFragment"
+        android:name="com.example.expensemanager.ui.QrScreenFragment"
+        android:label="QrScreenFragment" />
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.example.expensemanager.ui.BookDetailFragment"
+        android:label="BookDetailFragment" >
+        <argument
+            android:name="bookImage"
+            app:argType="string" />
     </fragment>
 </navigation>

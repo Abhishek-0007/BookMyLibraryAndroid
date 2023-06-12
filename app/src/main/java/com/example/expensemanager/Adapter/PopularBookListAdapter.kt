@@ -1,6 +1,7 @@
 package com.example.expensemanager.Adapter
 
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,15 +35,15 @@ class PopularBookListAdapter(var items: List<BookInfo>, var listener: BookOnCLic
         theImage.let {
             Glide.with(holder.binding.root.context)
                 .load(theImage)
-                .error(com.example.expensemanager.R.drawable.bookdefault)
+                .error(imageByteArray)
                 .into(holder.binding.image)
         }
 
 
-        val maxLen : Int = if(item.bookName?.length!! >= 16) 16 else item.bookName?.length!!
-        holder.binding.name.setText(item.bookName?.substring(0,maxLen))
+        holder.binding.name.setText(item.bookName)
+        holder.binding.desc.setText(item.bookAuthor)
         holder.binding.image.setOnClickListener{
-            listener.bookOnClickListener(position, item)
+            listener.bookOnClickListener(position, item, holder.binding.image, holder.itemView.y.toString())
         }
     }
 

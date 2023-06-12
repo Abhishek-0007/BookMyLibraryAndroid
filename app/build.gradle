@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 }
 
@@ -82,6 +83,12 @@ dependencies {
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
 
     implementation "com.github.sam43:AnimateViewLibrary:1.0.0"
-    implementation 'com.github.CodeCLS:SomeUIDesigns:1.0.0'}
+    implementation 'com.github.CodeCLS:SomeUIDesigns:1.0.0'
+
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:<version>"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:<version>"
+}
 
 
